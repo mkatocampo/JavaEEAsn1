@@ -72,4 +72,5 @@ public class Activity {
 	public static boolean isActivityOnList(List<Activity> list, Activity activity) {
 		return list.stream().filter(a -> a.getValue() == activity.getValue()).collect(Collectors.toList()).size() > 0;
 	}
+	
 }

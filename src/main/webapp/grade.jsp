@@ -7,7 +7,7 @@
 
 <%!//declare variables and methods
 	List<String> errors = new ArrayList();
-	List<Activity> activityList = new ArrayList<Activity>();
+	List<String> activityList = new ArrayList();
 
 	//store input
 	String user = "";
@@ -99,56 +99,42 @@
 	<div class="container">
 
 	<%
-		Activity act1 = null;
-		Activity act2 = null;
-		Activity act3 = null;
-		Activity act4 = null;
-		Activity act5 = null;
-		
 		if (request.getParameter("btnSubmit") != null) {
-					
-			errors = new ArrayList<String>();
-			activityList = new ArrayList<Activity>();
 			
-			act1 = Activity.getActivity("quiz1");
-			act2 = Activity.getActivity("quiz2");
-			act3 = Activity.getActivity("asn1");
-			act4 = Activity.getActivity("asn2");
-			act5 = Activity.getActivity("asn3");
+			activityList = new ArrayList<String>();		
+			errors = new ArrayList<String>();
 			
 			//check if no duplicate
+       		 if (!activityList.contains(request.getParameter("dd1"))) {
+       			activityList.add(request.getParameter("dd1"));
+   			}else{
+   				errors.add("Duplicate options selected from dropdown");
+   			} 
 			
-       		if (Activity.isActivityOnList(activityList, act1)) {
-   				errors.add("Activity " + act1.getName() + " is already added");
-   			} else{
-   				activityList.add(act1);
-   			}
-
-       		if (Activity.isActivityOnList(activityList, act2)) {
-   				errors.add("Activity " + act2.getName() + " is already added");
-   			} else{
-   				activityList.add(act2);
-   			}
+       		if (!activityList.contains(request.getParameter("dd2"))) {
+       			activityList.add(request.getParameter("dd2"));
+   			}else{
+   				errors.add("Duplicate options selected from dropdown");
+   			} 
        		
-       		if (Activity.isActivityOnList(activityList, act3)) {
-   				errors.add("Activity " + act3.getName() + " is already added");
-   			} else{
-   				activityList.add(act3);
-   			}
+       		if (!activityList.contains(request.getParameter("dd3"))) {
+       			activityList.add(request.getParameter("dd3"));
+   			}else{
+   				errors.add("Duplicate options selected from dropdown");
+   			} 
        		
-       		if (Activity.isActivityOnList(activityList, act4)) {
-   				errors.add("Activity " + act4.getName() + " is already added");
-   			} else{
-   				activityList.add(act4);
-   			}
+       		if (!activityList.contains(request.getParameter("dd4"))) {
+       			activityList.add(request.getParameter("dd4"));
+   			}else{
+   				errors.add("Duplicate options selected from dropdown");
+   			} 
        		
-       		if (Activity.isActivityOnList(activityList, act5)) {
-   				errors.add("Activity " + act5.getName() + " is already added");
-   			} else{
-   				activityList.add(act5);
-   			}
-       		
-				       		
+       		if (!activityList.contains(request.getParameter("dd5"))) {
+       			activityList.add(request.getParameter("dd5"));
+   			}else{
+   				errors.add("Duplicate options selected from dropdown");
+   			} 
+			 
 			//check if all required fields are entered
 			user = checkRequiredField(request.getParameter("user"), "User Name");
 			quiz1 = checkRequiredField(request.getParameter("quiz1"), "Quiz 1");
@@ -185,6 +171,15 @@
 				
 				session.setAttribute("name", request.getParameter("user"));
 				session.setAttribute("letterGrade", letterGrade);
+				
+				//reset values
+				user = "";
+				quiz1 = "";
+				quiz2 = "";
+				asn1 = "";
+				asn2 = "";
+				asn3 = "";
+				
 				response.sendRedirect("/JavaEEEx4/index.jsp");
 			}
 		}
@@ -194,19 +189,23 @@
 			<table>
 				<tr>
 					<td>Name of User:</td>
-					<td><input type="text" name="user"></td>
+					<td><input type="text" name="user"
+					value='<%=user != null ? user : ""%>'
+					></td>
 				</tr>
 
 				<tr>
 					<td><a:activityDropdown name="dd1" className="act1"
 							selectedIndex="0" /></td>
-					<td><input type="text" name="<%=request.getParameter("dd1")%>"/></td>
+					<td><input type="text" name="<%=request.getParameter("dd1")%>"			
+					/></td>
 				</tr>
 
 				<tr>
 					<td><a:activityDropdown name="dd2" className="act2"
 							selectedIndex="1" /></td>
-					<td><input type="text" name="<%=request.getParameter("dd2")%>"></td>
+					<td><input type="text" name="<%=request.getParameter("dd2")%>"
+					></td>
 				</tr>
 
 				<tr>
@@ -246,17 +245,6 @@
 		}
 		%>
 		</ul>
-		
-<%-- 		<ul>
-			<%
-			for (Activity a : team) {
-			%>
-			<li><%=a%></li>
-			<%
-			}
-
-		%>
-		</ul> --%>
 	</div>
 	<%@include file="/WEB-INF/jspf/footer.jspf"%>
 </body>
