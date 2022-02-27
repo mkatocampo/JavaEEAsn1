@@ -7,6 +7,7 @@
 
 <%!//declare variables and methods
 	List<String> errors = new ArrayList();
+	List<Activity> activityList = new ArrayList<Activity>();
 
 	//store input
 	String user = "";
@@ -97,55 +98,59 @@
 	<h1>Grade Provider</h1>
 	<div class="container">
 
-		<%
-			Activity act1 = null;
-			Activity act2 = null;
-			Activity act3 = null;
-			Activity act4 = null;
-			Activity act5 = null;
-			
-			if (request.getParameter("btnSubmit") != null) {
-						
+	<%
+		Activity act1 = null;
+		Activity act2 = null;
+		Activity act3 = null;
+		Activity act4 = null;
+		Activity act5 = null;
+		
+		if (request.getParameter("btnSubmit") != null) {
+					
 			errors = new ArrayList<String>();
+			activityList = new ArrayList<Activity>();
 			
-			List<Activity> team = new ArrayList<Activity>();
+			request.getParameter("dd2");
 			
 			act1 = Activity.getActivity("quiz1");
+			
 			act2 = Activity.getActivity("quiz2");
 			act3 = Activity.getActivity("asn1");
 			act4 = Activity.getActivity("asn2");
 			act5 = Activity.getActivity("asn3");
 			
 			//check if no duplicate
-       		if (Activity.isActivityOnList(team, act1)) {
+			
+       		if (Activity.isActivityOnList(activityList, act1)) {
    				errors.add("Activity " + act1.getName() + " is already added");
    			} else{
-   				team.add(act1);
+   				activityList.add(act1);
    			}
 
-       		if (Activity.isActivityOnList(team, act2)) {
+       		if (Activity.isActivityOnList(activityList, act2)) {
    				errors.add("Activity " + act2.getName() + " is already added");
    			} else{
-   				team.add(act2);
+   				activityList.add(act2);
    			}
        		
-       		if (Activity.isActivityOnList(team, act3)) {
+       		if (Activity.isActivityOnList(activityList, act3)) {
    				errors.add("Activity " + act3.getName() + " is already added");
    			} else{
-   				team.add(act3);
+   				activityList.add(act3);
    			}
        		
-       		if (Activity.isActivityOnList(team, act4)) {
+       		if (Activity.isActivityOnList(activityList, act4)) {
    				errors.add("Activity " + act4.getName() + " is already added");
    			} else{
-   				team.add(act4);
+   				activityList.add(act4);
    			}
        		
-       		if (Activity.isActivityOnList(team, act5)) {
+       		if (Activity.isActivityOnList(activityList, act5)) {
    				errors.add("Activity " + act5.getName() + " is already added");
    			} else{
-   				team.add(act5);
+   				activityList.add(act5);
    			}
+       		
 				       		
 			//check if all required fields are entered
 			user = checkRequiredField(request.getParameter("user"), "User Name");
@@ -162,11 +167,10 @@
 			validateScores(asn2, "Assignment 2");
 			validateScores(asn3, "Assignment 3");
 			
-			
 			if (errors.isEmpty()){
-				numericGrade = (Double.parseDouble(quiz1) + Double.parseDouble(quiz2)) * 0.30 + 
-						(Double.parseDouble(asn1) + Double.parseDouble(asn2)) * 0.50 +
-						Double.parseDouble(asn3) * 0.20 ;
+				numericGrade = (Double.parseDouble(quiz1)/100 + Double.parseDouble(quiz2)/100) * 30 + 
+						(Double.parseDouble(asn1)/200 + Double.parseDouble(asn2)/100) * 50 +
+						Double.parseDouble(asn3)/50 * 20 ;
 					
 				if (numericGrade >= 93){
 					letterGrade = "A";
@@ -199,31 +203,31 @@
 				<tr>
 					<td><a:activityDropdown name="dd1" className="act1"
 							selectedIndex="0" /></td>
-					<td><input type="text" name="<%=request.getParameter("dd1")%>"/><%=request.getParameter("dd1")%></td>
+					<td><input type="text" name="<%=request.getParameter("dd1")%>"/></td>
 				</tr>
 
 				<tr>
 					<td><a:activityDropdown name="dd2" className="act2"
 							selectedIndex="1" /></td>
-					<td><input type="text" name="<%=request.getParameter("dd2")%>"><%=request.getParameter("dd2")%></td>
+					<td><input type="text" name="<%=request.getParameter("dd2")%>"></td>
 				</tr>
 
 				<tr>
 					<td><a:activityDropdown name="dd3" className="act3"
 							selectedIndex="2" /></td>
-					<td><input type="text" name="<%=request.getParameter("dd3")%>"><%=request.getParameter("dd3")%></td>
+					<td><input type="text" name="<%=request.getParameter("dd3")%>"></td>
 				</tr>
 
 				<tr>
 					<td><a:activityDropdown name="dd4" className="act4"
 							selectedIndex="3" /></td>
-					<td><input type="text" name="<%=request.getParameter("dd4")%>"><%=request.getParameter("dd4")%></td>
+					<td><input type="text" name="<%=request.getParameter("dd4")%>"></td>
 				</tr>
 
 				<tr>
 					<td><a:activityDropdown name="dd5" className="act5"
 							selectedIndex="4" /></td>
-					<td><input type="text" name="<%=request.getParameter("dd5")%>"><%=request.getParameter("dd5")%></td>
+					<td><input type="text" name="<%=request.getParameter("dd5")%>"></td>
 				</tr>
 
 			</table>
@@ -245,7 +249,17 @@
 		}
 		%>
 		</ul>
-		<%=letterGrade %>
+		
+<%-- 		<ul>
+			<%
+			for (Activity a : team) {
+			%>
+			<li><%=a%></li>
+			<%
+			}
+
+		%>
+		</ul> --%>
 	</div>
 	<%@include file="/WEB-INF/jspf/footer.jspf"%>
 </body>
