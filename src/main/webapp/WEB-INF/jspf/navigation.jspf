@@ -1,0 +1,5 @@
+<%@ page pageEncoding="UTF-8" %>
+
+<nav class="p-3 mb-2 bg-light text-dark">
+    WMAD Java EE
+</nav>

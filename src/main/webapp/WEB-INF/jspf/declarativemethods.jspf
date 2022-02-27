@@ -1,0 +1,83 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.text.NumberFormat"%>
+<%@ page pageEncoding="UTF-8" %>
+<%!
+    ArrayList<String> errors = new ArrayList<String>();
+   
+
+    /**
+     * Check for required fields. Adds a field specific error to errors list for missing value
+     */
+    private String checkRequiredField(String value, String fieldName) {
+        if (value.equals("")) {
+            errors.add(fieldName + " is required");
+        }
+
+        return value;
+    }    
+
+    /**
+     * Checks a value for numeric. Valid numeric returns true, invalid numeric returns false.
+     * Adds a field specific error to errors list for non-numeric value
+     */
+    private boolean isNumeric(String value, String fieldName) {
+        boolean result = true;
+
+        try {
+            Double.parseDouble(value);
+        } catch (NumberFormatException nfe) {
+            result = false;
+        }
+
+        if (!result) {
+            errors.add(fieldName + " is not a valid number");
+        }
+
+        return result;
+    }
+
+    /**
+     * Format a double to currency
+     */
+    private String currencyFormatter(double value) {
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        return nf.format(value);
+    }
+
+    /**
+     *  Checks a string for numeric. Returns true is numeric, false if not numeric
+     */
+    private boolean isNumeric(String value) {
+        boolean result = true;
+
+        try {
+            double d = Double.parseDouble(value);
+        } catch (NumberFormatException nfe) {
+            result = false;
+        }
+
+        return result;
+    }
+
+    /**
+     * Convert string to double value
+     */
+    private double getDoubleValue(String value) {
+        try {
+            return Double.parseDouble(value);
+        } catch (Exception e) {
+            return 0.0;
+        }
+    }
+
+    /**
+     * Convert string to integer value
+     */
+    private int getIntegerValue(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+%>
