@@ -113,7 +113,6 @@
 			request.getParameter("dd2");
 			
 			act1 = Activity.getActivity("quiz1");
-			
 			act2 = Activity.getActivity("quiz2");
 			act3 = Activity.getActivity("asn1");
 			act4 = Activity.getActivity("asn2");
